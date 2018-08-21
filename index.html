@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./public/css/main.css">
+  <title>ToDoList</title>
+</head>
+
+<body>
+  <div class="container">
+    <div id="title" class="my-4 callout callout-info">
+      <h1>TodoList</h1>
+    </div>
+    <div id="exo-1" class="box box-info">
+      <div class="box-header with-border ">
+        <h3>Ajouter une tâche :</h3>
+        <form class="row">
+          <div class="col-sm-4">
+            <input type="text" placeholder="Veuillez remplir le champ" class="form-control " id="input-task">
+          </div>
+          <div class="col-sm-3">
+            <button type="submit" id="add-task" class="btn btn-primary">Ajouter</button>
+          </div>
+        </form>
+      </div>
+      <!-- /.box-header -->
+
+      <div class="box-body">
+        <ul id="list">
+        </ul>
+      </div>
+      <!-- /.box-body -->
+    </div>
+
+  </div>
+  <script src="./public/js/main.js"></script>
+</body>
+
+</html>
