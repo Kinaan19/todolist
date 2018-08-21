@@ -27,18 +27,7 @@ function btn_jaune(element){
         }else{
             btn_confirm(editInput,boutonConfirm,currentIndex);   
         };
-        boutonVertArray = Array.from(boutonVert);
-        boutonJauneArray = Array.from(boutonJaune);
-        boutonRougeArray = Array.from(boutonRouge);
-        boutonVertArray.forEach(element => {
-            element.addEventListener("click",()=>btn_vert(element));
-        });
-        boutonJauneArray.forEach(element => {
-                element.addEventListener("click",()=>btn_jaune(element));
-        }); 
-        boutonRougeArray.forEach(element => {
-                element.addEventListener("click",()=>btn_rouge(element));
-        });
+        mesForEach();
     });
 };
 
@@ -46,14 +35,11 @@ function btn_confirm(editInput,boutonConfirm,currentIndex){
     boutonConfirm.parentElement.parentElement.innerHTML = `<p class="col-8">${editInput.value}</p><div class="col-4 archive"><button data-index="${currentIndex}" class="btn vert" type="button"></button><button data-index="${currentIndex}" class="btn jaune" type="button"></button><button data-index="${currentIndex}" class="btn rouge" type="button"></button></div>`;
 };
 
-monForm[0].addEventListener("submit",()=>{
-   event.preventDefault();
-   if(monInput.value == "" || monInput.value.charAt(0) == " "){
-       alert("Vous ne pouvez pas remplir le champ en commençant par un espace.\nVeuillez réessayer.")
-   }else{
-       fct_ajouter();
-       monInput.value = "";    
-   };  
+function btn_rouge(element){
+    mesElements[element.dataset.index].style.display = "none";
+};
+
+function mesForEach(){
    boutonVertArray = Array.from(boutonVert);
    boutonJauneArray = Array.from(boutonJaune);
    boutonRougeArray = Array.from(boutonRouge);
@@ -66,4 +52,15 @@ monForm[0].addEventListener("submit",()=>{
    boutonRougeArray.forEach(element => {
         element.addEventListener("click",()=>btn_rouge(element));
    });
+};
+
+monForm[0].addEventListener("submit",()=>{
+   event.preventDefault();
+   if(monInput.value == "" || monInput.value.charAt(0) == " "){
+       alert("Vous ne pouvez pas remplir le champ en commençant par un espace.\nVeuillez réessayer.")
+   }else{
+       fct_ajouter();
+       monInput.value = "";    
+   };  
+   mesForEach();
 });
