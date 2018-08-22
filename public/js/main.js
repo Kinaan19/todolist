@@ -16,26 +16,36 @@ var done = [];
 var deleted = [];
 
 function fct_ajouter(){
-   list.innerHTML += `<div class="row element"><p class="col-8">${monInput.value}</p><div class="col-4 archive"><button data-index="${i}" class="btn vert" type="button"></button><button data-index="${i}" class="btn jaune" type="button"></button><button data-index="${i}" class="btn rouge" type="button"></button></div></div>`;
+   list.innerHTML += `<div class="row element bg-light"><p class="col-8">${monInput.value}</p><div class="col-4 archive"><button data-index="${i}" class="btn vert" type="button"></button><button data-index="${i}" class="btn jaune" type="button"></button><button data-index="${i}" class="btn rouge" type="button"></button></div></div>`;
    i++;
    todo = [];
    mesElementsArray = Array.from(mesElements);
    mesElementsArray.forEach(element => {
-       todo.push(element);
+       if(element.className == "row element bg-light"){
+           todo.push(element);
+       }else if(element.className == "row element bg-success"){
+           done.push(element);
+       }else if(element.className == "row element bg-danger"){
+           deleted.push(element);
+       };
    });
+   fct_all();
 };
 
 function btn_vert(element){
-    if(mesElements[element.dataset.index].style.backgroundColor == "green"){
-        mesElements[element.dataset.index].style.backgroundColor = "white";
+    if(mesElements[element.dataset.index].className == "row element bg-success"){
+        mesElements[element.dataset.index].classList.remove("bg-success");
+        mesElements[element.dataset.index].classList.add("bg-light");
         let switchElemTodo = done.splice(mesElementsArray.indexOf(mesElements[element.dataset.index]),1);
         todo.push(switchElemTodo[0]);
-    }else if(mesElements[element.dataset.index].style.backgroundColor == "red"){
-        mesElements[element.dataset.index].style.backgroundColor = "green";
+    }else if(mesElements[element.dataset.index].className == "row element bg-danger"){
+        mesElements[element.dataset.index].classList.remove("bg-danger");
+        mesElements[element.dataset.index].classList.add("bg-success");
         let switchElemDone = deleted.splice(todo.indexOf(mesElements[element.dataset.index]),1);
         done.push(switchElemDone[0]);
     }else{
-        mesElements[element.dataset.index].style.backgroundColor = "green";
+        mesElements[element.dataset.index].classList.remove("bg-light");
+        mesElements[element.dataset.index].classList.add("bg-success");
         let switchElemDone = todo.splice(todo.indexOf(mesElements[element.dataset.index]),1);
         done.push(switchElemDone[0]);
     };
@@ -61,16 +71,19 @@ function btn_confirm(editInput,boutonConfirm,currentIndex){
 };
 
 function btn_rouge(element){
-    if(mesElements[element.dataset.index].style.backgroundColor == "red"){
-        mesElements[element.dataset.index].style.backgroundColor = "white";
+    if(mesElements[element.dataset.index].className == "row element bg-danger"){
+        mesElements[element.dataset.index].classList.remove("bg-danger");
+        mesElements[element.dataset.index].classList.add("bg-light");
         let switchElemDel = deleted.splice(mesElementsArray.indexOf(mesElements[element.dataset.index]),1);
         todo.push(switchElemDel[0]);
-    }else if(mesElements[element.dataset.index].style.backgroundColor == "green"){
-        mesElements[element.dataset.index].style.backgroundColor = "red";
+    }else if(mesElements[element.dataset.index].className == "row element bg-success"){
+        mesElements[element.dataset.index].classList.remove("bg-success");
+        mesElements[element.dataset.index].classList.add("bg-danger");
         let switchElemDone = done.splice(todo.indexOf(mesElements[element.dataset.index]),1);
         deleted.push(switchElemDone[0]);
     }else{
-        mesElements[element.dataset.index].style.backgroundColor = "red";
+        mesElements[element.dataset.index].classList.remove("bg-light");
+        mesElements[element.dataset.index].classList.add("bg-danger");
         let switchElemDone = todo.splice(todo.indexOf(mesElements[element.dataset.index]),1);
         deleted.push(switchElemDone[0]);
     };
@@ -94,7 +107,7 @@ function mesForEach(){
 monForm[0].addEventListener("submit",()=>{
    event.preventDefault();
    if(monInput.value == "" || monInput.value.charAt(0) == " "){
-       alert("Vous ne pouvez pas remplir le champ en commençant par un espace.\nVeuillez réessayer.");
+       alert("Vous devez remplir le champ.\nVeuillez réessayer.");
        mesForEach();
    }else{
        fct_ajouter();
