@@ -1,6 +1,7 @@
 var monTodo = document.getElementById("todo");
 var monDone = document.getElementById("done");
 var monDeleted = document.getElementById("deleted");
+var monAll = document.getElementById("all");
 var monInput = document.getElementById("input-task");
 var monForm = document.getElementsByTagName("form");
 var list = document.getElementById("list");
@@ -29,6 +30,10 @@ function btn_vert(element){
         mesElements[element.dataset.index].style.backgroundColor = "white";
         let switchElemTodo = done.splice(mesElementsArray.indexOf(mesElements[element.dataset.index]),1);
         todo.push(switchElemTodo[0]);
+    }else if(mesElements[element.dataset.index].style.backgroundColor == "red"){
+        mesElements[element.dataset.index].style.backgroundColor = "green";
+        let switchElemDone = deleted.splice(todo.indexOf(mesElements[element.dataset.index]),1);
+        done.push(switchElemDone[0]);
     }else{
         mesElements[element.dataset.index].style.backgroundColor = "green";
         let switchElemDone = todo.splice(todo.indexOf(mesElements[element.dataset.index]),1);
@@ -58,8 +63,16 @@ function btn_confirm(editInput,boutonConfirm,currentIndex){
 function btn_rouge(element){
     if(mesElements[element.dataset.index].style.backgroundColor == "red"){
         mesElements[element.dataset.index].style.backgroundColor = "white";
+        let switchElemDel = deleted.splice(mesElementsArray.indexOf(mesElements[element.dataset.index]),1);
+        todo.push(switchElemDel[0]);
+    }else if(mesElements[element.dataset.index].style.backgroundColor == "green"){
+        mesElements[element.dataset.index].style.backgroundColor = "red";
+        let switchElemDone = done.splice(todo.indexOf(mesElements[element.dataset.index]),1);
+        deleted.push(switchElemDone[0]);
     }else{
         mesElements[element.dataset.index].style.backgroundColor = "red";
+        let switchElemDone = todo.splice(todo.indexOf(mesElements[element.dataset.index]),1);
+        deleted.push(switchElemDone[0]);
     };
 };
 
@@ -100,4 +113,33 @@ function fct_toDo() {
     });
 };
 
+function fct_done(){
+    done.forEach(element => {
+        if(element.style.display == "none"){
+            element.style.display = "";
+        }else{
+            element.style.display = "none";
+        };
+    });
+};
+
+function fct_deleted(){
+    deleted.forEach(element => {
+        if(element.style.display == "none"){
+            element.style.display = "";
+        }else{
+            element.style.display = "none";
+        };
+    });
+};
+
+function fct_all(){
+    mesElementsArray.forEach(element => {
+        element.style.display = ""
+    });
+};
+
+monAll.addEventListener("click",fct_all);
+monDeleted.addEventListener("click",fct_deleted);
+monDone.addEventListener("click",fct_done);
 monTodo.addEventListener("click",fct_toDo);
