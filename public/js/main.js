@@ -1,3 +1,6 @@
+var monTodo = document.getElementById("todo");
+var monDone = document.getElementById("done");
+var monDeleted = document.getElementById("deleted");
 var monInput = document.getElementById("input-task");
 var monForm = document.getElementsByTagName("form");
 var list = document.getElementById("list");
@@ -14,6 +17,7 @@ var deleted = [];
 function fct_ajouter(){
    list.innerHTML += `<div class="row element"><p class="col-8">${monInput.value}</p><div class="col-4 archive"><button data-index="${i}" class="btn vert" type="button"></button><button data-index="${i}" class="btn jaune" type="button"></button><button data-index="${i}" class="btn rouge" type="button"></button></div></div>`;
    i++;
+   todo = [];
    mesElementsArray = Array.from(mesElements);
    mesElementsArray.forEach(element => {
        todo.push(element);
@@ -23,12 +27,12 @@ function fct_ajouter(){
 function btn_vert(element){
     if(mesElements[element.dataset.index].style.backgroundColor == "green"){
         mesElements[element.dataset.index].style.backgroundColor = "white";
+        let switchElemTodo = done.splice(mesElementsArray.indexOf(mesElements[element.dataset.index]),1);
+        todo.push(switchElemTodo[0]);
     }else{
         mesElements[element.dataset.index].style.backgroundColor = "green";
-        let switchElem = todo.splice(mesElementsArray.indexOf(mesElements[element.dataset.index]));
-        done.push(switchElem);
-        console.log(todo);
-        console.log(done);
+        let switchElemDone = todo.splice(todo.indexOf(mesElements[element.dataset.index]),1);
+        done.push(switchElemDone[0]);
     };
 };
 
@@ -85,3 +89,15 @@ monForm[0].addEventListener("submit",()=>{
    };  
    mesForEach();
 });
+
+function fct_toDo() {
+    todo.forEach(element => {
+        if(element.style.display == "none"){
+            element.style.display = "";
+        }else{
+            element.style.display = "none";
+        };
+    });
+};
+
+monTodo.addEventListener("click",fct_toDo);
