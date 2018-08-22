@@ -5,15 +5,31 @@ var boutonVert = document.getElementsByClassName("vert");
 var boutonJaune =  document.getElementsByClassName("jaune");
 var boutonRouge = document.getElementsByClassName("rouge");
 var boutonVertArray,boutonJauneArray,boutonRougeArray;var mesElements = document.getElementsByClassName("element");
+var mesElementsArray
 var i = 0;
+var todo = [];
+var done = [];
+var deleted = [];
 
 function fct_ajouter(){
    list.innerHTML += `<div class="row element"><p class="col-8">${monInput.value}</p><div class="col-4 archive"><button data-index="${i}" class="btn vert" type="button"></button><button data-index="${i}" class="btn jaune" type="button"></button><button data-index="${i}" class="btn rouge" type="button"></button></div></div>`;
    i++;
+   mesElementsArray = Array.from(mesElements);
+   mesElementsArray.forEach(element => {
+       todo.push(element);
+   });
 };
 
 function btn_vert(element){
-    mesElements[element.dataset.index].style.backgroundColor = "green";
+    if(mesElements[element.dataset.index].style.backgroundColor == "green"){
+        mesElements[element.dataset.index].style.backgroundColor = "white";
+    }else{
+        mesElements[element.dataset.index].style.backgroundColor = "green";
+        let switchElem = todo.splice(mesElementsArray.indexOf(mesElements[element.dataset.index]));
+        done.push(switchElem);
+        console.log(todo);
+        console.log(done);
+    };
 };
 
 function btn_jaune(element){
@@ -36,7 +52,11 @@ function btn_confirm(editInput,boutonConfirm,currentIndex){
 };
 
 function btn_rouge(element){
-    mesElements[element.dataset.index].style.display = "none";
+    if(mesElements[element.dataset.index].style.backgroundColor == "red"){
+        mesElements[element.dataset.index].style.backgroundColor = "white";
+    }else{
+        mesElements[element.dataset.index].style.backgroundColor = "red";
+    };
 };
 
 function mesForEach(){
@@ -57,7 +77,8 @@ function mesForEach(){
 monForm[0].addEventListener("submit",()=>{
    event.preventDefault();
    if(monInput.value == "" || monInput.value.charAt(0) == " "){
-       alert("Vous ne pouvez pas remplir le champ en commençant par un espace.\nVeuillez réessayer.")
+       alert("Vous ne pouvez pas remplir le champ en commençant par un espace.\nVeuillez réessayer.");
+       mesForEach();
    }else{
        fct_ajouter();
        monInput.value = "";    
